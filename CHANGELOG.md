@@ -20,6 +20,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - `docs/HARDENING.md` — post-setup hardening steps for Discord routing policy, sandboxing, filesystem scope, credential permissions
 - `docs/DISCORD-OPERATIONS.md` — Discord runbook with health checks and operational tasks
+- `docs/DISCORD-BOT-GUIDE.md` — beginner-friendly purpose and example prompt for every Discord channel
 - `scripts/discord-sync.py` — canonical Discord layout audit/apply utility
 - `scripts/harden-openclaw.sh` — one-command hardening baseline helper
 
@@ -27,6 +28,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `README.md` — simplified structure, removed duplication, added Discord sync commands and hardening doc link
 - `docs/ARCHITECTURE.md` — updated Zalo bridge wording from OA to personal account bridge
 - `docs/HARDENING.md` — added Discord slash-command allowlist guidance and script usage
+- `scripts/discord-sync.py` — now also enforces beginner-friendly channel topics/descriptions
 
 ---
 

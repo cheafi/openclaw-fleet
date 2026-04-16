@@ -219,6 +219,7 @@ openclaw-fleet/
 - [Beginner guide](docs/BEGINNERS-GUIDE.md)
 - [Architecture deep dive](docs/ARCHITECTURE.md)
 - [Discord operations runbook](docs/DISCORD-OPERATIONS.md)
+- [Discord bot guide for beginners](docs/DISCORD-BOT-GUIDE.md)
 - [Hardening guide](docs/HARDENING.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Use cases](docs/USE-CASES.md)
