@@ -23,6 +23,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `docs/DISCORD-BOT-GUIDE.md` — beginner-friendly purpose and example prompt for every Discord channel
 - `scripts/discord-sync.py` — canonical Discord layout audit/apply utility
 - `scripts/harden-openclaw.sh` — one-command hardening baseline helper
+- `scripts/discord-post-onboarding.py` — posts starter "how to use" messages into every Discord bot channel
 
 ### Changed
 - `README.md` — simplified structure, removed duplication, added Discord sync commands and hardening doc link

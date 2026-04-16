@@ -51,6 +51,15 @@ Preferred: run sync script.
 python3 scripts/discord-sync.py --apply
 ```
 
+### Post beginner usage messages in every channel
+
+```bash
+python3 scripts/discord-post-onboarding.py
+```
+
+This posts one starter message per channel with a simple "what this bot does"
+description and an example prompt.
+
 ### Verify channel mapping for an agent
 1. Confirm channel ID in `~/.openclaw/openclaw.json`
 2. Right-click Discord channel → Copy Channel ID

@@ -118,6 +118,12 @@ python3 scripts/discord-sync.py
 python3 scripts/discord-sync.py --apply
 ```
 
+To post beginner-friendly usage messages in each channel:
+
+```bash
+python3 scripts/discord-post-onboarding.py
+```
+
 ---
 
 ## Quickstart
