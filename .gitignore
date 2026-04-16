@@ -1,16 +1,43 @@
-# Secrets and credentials
-*.keys.json
-*secrets*
+# ================================================================
+# NEVER commit these — they contain real credentials and tokens
+# ================================================================
+
+# OpenClaw master config (contains Discord token + AI API key)
+openclaw.json
+
+# Skill and service credentials
 *.env
 .env.*
+*secrets*
+*.keys.json
+skill-secrets.env
 
-# OpenClaw state
+# Zalo session data (contains auth cookie)
+zalo-session/
+credentials.json
+qr.png
+
+# ================================================================
+# Build artifacts and state
+# ================================================================
+
 *.bak
 *.log
+*.tmp
 
-# OS
+# ================================================================
+# OS / editor artifacts
+# ================================================================
+
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/settings.json
 
-# Node
+# ================================================================
+# Node / package managers
+# ================================================================
+
 node_modules/
+package-lock.json
+yarn.lock

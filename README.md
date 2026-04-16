@@ -1,32 +1,104 @@
-# 🦞 OpenClaw AI Agent Fleet
+# OpenClaw Fleet
 
-> **31 AI agents working together on Discord** — self-improving, automated, and beginner-friendly.
+**A self-managing AI agent fleet running on Discord, built with [OpenClaw](https://openclaw.ai).**
 
-A complete setup for running a fleet of specialized AI agents through [OpenClaw](https://openclaw.ai) on Discord. Each agent has its own channel, personality, and job — from daily weather updates to automated security scans.
+Each agent has a dedicated Discord channel, a personality file, and a job. You talk to them in plain language — they search the web, run shell commands, summarize content, and post scheduled briefings automatically.
 
 ![Agents](https://img.shields.io/badge/agents-31-blue)
-![Crons](https://img.shields.io/badge/automated_crons-9-green)
-![Discord](https://img.shields.io/badge/discord-6_categories-purple)
+![Crons](https://img.shields.io/badge/automated%20crons-9-green)
+![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
-## 🤔 What Is This?
+## What this is
 
-This is a **personal AI operations center** that runs on your Mac (or any machine). Think of it as having a team of AI assistants, each specialized in a different task, all talking to you through Discord.
+A real, running deployment of 31 OpenClaw agents on a personal Discord server. This repo publishes the agent configs, scripts, and documentation so others can replicate or adapt the setup.
 
-**You don't need to code.** Just talk to them in Discord like you would with a colleague.
+**What it does:**
+- Sends a daily weather and news briefing to Discord every morning
+- Monitors system health every 6 hours and alerts on failures
+- Cleans up your Mac disk automatically every Saturday
+- Summarizes articles, YouTube transcripts, and documents on demand
+- Searches multiple sources simultaneously for research or job hunting
+- Runs automated workflows by chaining agents together
+- Sends Zalo event invitations via a personal account bridge (Vietnam market)
 
-### Examples of What You Can Do
+**What it does not do:**
+- Run in the cloud — this is a local macOS setup
+- Work without your own AI model API key
+- Replace purpose-built SaaS tools for heavy production workloads
 
-| Just Type This in Discord | What Happens |
-|--------------------------|--------------|
-| *"Summarize this article: [url]"* in #summarize | AI reads the page and gives you a summary |
-| *"Find freelance AI jobs in Asia"* in #gig | AI searches job boards and lists opportunities |
-| *"What's the weather?"* in #hk-weather | Already automated — posts every morning at 9 AM |
-| *"Remind me to call John tomorrow 3pm"* in #remind-me | Sets a reminder and notifies you |
-| *"Transcribe this YouTube video: [url]"* in #youtube-transcript | Extracts the full transcript |
-| *"Make this text sound more human"* in #humanizer | Rewrites robotic text naturally |
-| *"Check system health"* in #healthcheck | Runs a full diagnostic of your setup |
+---
+
+## Who this is for
+
+**Good fit:**
+- Developers or power users who want a personal AI operations center
+- People comfortable with a one-time terminal setup (~30–60 min)
+- Anyone already using Discord as a daily workspace
+
+**Not a good fit:**
+- Fully non-technical users with no terminal experience
+- Teams needing multi-user, access-controlled deployments
+- Production workloads requiring SLA guarantees
+
+---
+
+## Current status
+
+| Area | Status |
+|------|--------|
+| Core agent fleet (31 agents) | ✅ Running |
+| Automated cron jobs (9 schedules) | ✅ Running |
+| Discord 6-category layout | ✅ Live |
+| Zalo personal bridge | ✅ Working (requires first-time QR scan) |
+| ClawHub skills (11 installed) | ✅ Installed |
+| `setup.sh` one-command installer | 🚧 Not yet built |
+| Cloud / Linux support | 🚧 Untested |
+
+> This is a personal fleet, not a polished product. Setup takes 30–60 minutes and requires editing config files. The docs below are honest about what works and what does not.
+
+---
+
+## How it works
+
+```
+You (Discord message)
+        │
+        ▼
+OpenClaw Gateway  (localhost:18789)
+        │
+        ├── Route message to matching agent
+        ├── Load agent SOUL.md  (personality + instructions)
+        ├── Load shared PROTOCOLS.md  (fleet-wide rules)
+        │
+        ▼
+AI Model API  (OpenAI-compatible endpoint)
+        │
+        ▼
+Tool execution  (exec, read/write files, web search, MCP)
+        │
+        ▼
+Response posted to Discord channel
+```
+
+**Self-improvement loop (fully automated):**
+1. All agents write errors and successes to `learning-log`
+2. `learning-log` posts a daily digest at 9:30 AM HKT
+3. `self-improving` reviews the fleet every Monday and proposes improvements
+4. `self-evolving-skill` patches broken skill dependencies every day at 4 AM
+
+### Example prompts
+
+| Channel | What to type |
+|---------|-------------|
+| #summarize | `"Summarize this article: [url]"` |
+| #gig | `"Find remote AI contract roles in Asia Pacific"` |
+| #file-organizer | `"Show me what is taking the most space in ~/Downloads"` |
+| #youtube-transcript | `"Get transcript: [YouTube URL]"` |
+| #humanizer | `"Rewrite this to sound more natural: [text]"` |
+| #healthcheck | `"Is everything running okay?"` |
 
 ---
 
@@ -118,8 +190,17 @@ openclaw config set channels.discord.enabled true
 ```bash
 git clone https://github.com/cheafi/openclaw-fleet.git
 cd openclaw-fleet
-./setup.sh  # Coming soon — auto-creates all agents & channels
 ```
+
+Copy the agents you want into your OpenClaw workspace:
+
+```bash
+cp -r agents/summarize ~/.openclaw/workspace-summarize
+cp -r agents/healthcheck ~/.openclaw/workspace-healthcheck
+# repeat for each agent you want to run
+```
+
+> ⚠️ A `setup.sh` auto-installer is not yet built. Manual copying is required for now. See [docs/BEGINNERS-GUIDE.md](docs/BEGINNERS-GUIDE.md) for the full step-by-step.
 
 ### Step 5: Start the Gateway
 ```bash
@@ -313,10 +394,25 @@ Run multi-agent pipelines with one command:
 
 ## 🤝 Contributing
 
-This is a personal fleet setup, but feel free to:
-- Fork and adapt for your own use
-- Open issues for questions
-- Submit PRs for improvements
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute agents, docs fixes, or scripts.
+
+Quick notes:
+- Fork the repo and open a PR
+- Follow the existing `SOUL.md` / `IDENTITY.md` format for new agents
+- Do not include real API keys, tokens, or personal data in PRs
+- Open an issue first for larger changes
+
+---
+
+## 🛡️ Security
+
+See [SECURITY.md](SECURITY.md) for the full security policy.
+
+Short version:
+- **Never commit `~/.openclaw/openclaw.json`** — it contains your bot token and API keys
+- The gateway binds to `localhost` only — do not expose port 18789 to the internet
+- Review `SOUL.md` files before deploying — they control what shell commands agents can execute
+- Use a Discord bot with minimal permissions — no admin scope required
 
 ---
 
