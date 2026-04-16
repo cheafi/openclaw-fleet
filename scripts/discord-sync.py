@@ -12,7 +12,7 @@ import json
 import os
 import urllib.error
 import urllib.request
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 EXPECTED_LAYOUT: Dict[str, List[str]] = {
     "☕ Welcome": ["一般"],
@@ -57,27 +57,66 @@ EXPECTED_LAYOUT: Dict[str, List[str]] = {
 }
 
 CHANNEL_TOPICS: Dict[str, str] = {
-    "一般": "General help and onboarding. Ask anything about how to use this AI fleet.",
-    "hk-weather": "Daily Hong Kong weather briefing. Ask: 'Weather update for today and tomorrow'.",
-    "construction-news": "Daily APAC construction opportunities. Ask: 'Show projects above HKD 10M'.",
-    "healthcheck": "System diagnostics and uptime checks. Ask: 'Run full health check'.",
-    "backup": "Backup status and recovery guidance. Ask: 'When was the last backup?'.",
-    "fail2ban-reporter": "Security event summary and suspicious activity checks.",
-    "learning-log": "Daily summary of what agents learned and where they failed/succeeded.",
+    "一般": (
+        "General help and onboarding. "
+        "Ask anything about how to use this AI fleet."
+    ),
+    "hk-weather": (
+        "Daily Hong Kong weather briefing. "
+        "Ask: 'Weather update for today and tomorrow'."
+    ),
+    "construction-news": (
+        "Daily APAC construction opportunities. "
+        "Ask: 'Show projects above HKD 10M'."
+    ),
+    "healthcheck": (
+        "System diagnostics and uptime checks. "
+        "Ask: 'Run full health check'."
+    ),
+    "backup": (
+        "Backup status and recovery guidance. "
+        "Ask: 'When was the last backup?'."
+    ),
+    "fail2ban-reporter": (
+        "Security event summary and suspicious activity checks."
+    ),
+    "learning-log": (
+        "Daily summary of what agents learned "
+        "and where they failed/succeeded."
+    ),
     "self-improving": "Weekly fleet review and improvement proposals.",
     "self-evolving-skill": "Dependency and skill patching status.",
-    "skill-builder": "Design and scaffold new OpenClaw skills from your workflow ideas.",
+    "skill-builder": (
+        "Design and scaffold new OpenClaw skills "
+        "from your workflow ideas."
+    ),
     "auto-workflow": "Chain multiple agents into one repeatable workflow.",
     "auto-deploy": "Deployment automation for repos and app updates.",
     "auto-update": "Dependency audit and update recommendations.",
-    "browser-automation": "Automate browser tasks like scraping, form fill, and repetitive web steps.",
-    "ai-web-automation": "Complex AI-assisted web workflows and multi-step tasks.",
-    "zalo-events": "Zalo personal-account event invitations and follow-up messages.",
-    "remind-me": "Set reminders and scheduling prompts. Example: 'Remind me tomorrow 3pm'.",
+    "browser-automation": (
+        "Automate browser tasks like scraping, "
+        "form fill, and repetitive web steps."
+    ),
+    "ai-web-automation": (
+        "Complex AI-assisted web workflows and multi-step tasks."
+    ),
+    "zalo-events": (
+        "Zalo personal-account event invitations "
+        "and follow-up messages."
+    ),
+    "remind-me": (
+        "Set reminders and scheduling prompts. "
+        "Example: 'Remind me tomorrow 3pm'."
+    ),
     "summarize": "Summarize URLs, long text, and documents into key points.",
-    "file-summary": "Analyze local files (PDF, docs) and extract actionable insights.",
+    "file-summary": (
+        "Analyze local files (PDF, docs) "
+        "and extract actionable insights."
+    ),
     "file-organizer": "Disk cleanup and file organization suggestions.",
-    "multi-search-engine": "Search across multiple engines and combine findings.",
+    "multi-search-engine": (
+        "Search across multiple engines and combine findings."
+    ),
     "humanizer": "Rewrite robotic text into more natural, human tone.",
     "youtube-transcript": "Extract transcript from YouTube links.",
     "openai-whisper": "Transcribe audio files into text.",
@@ -87,7 +126,10 @@ CHANNEL_TOPICS: Dict[str, str] = {
     "free-ride": "Find free tiers, credits, and cost-saving options.",
     "github": "GitHub operations: PR review, issues, release workflow.",
     "api-gateway": "API design, debugging, and integration guidance.",
-    "docker-essential": "Container checks, diagnostics, and best-practice fixes.",
+    "docker-essential": (
+        "Container checks, diagnostics, "
+        "and best-practice fixes."
+    ),
     "agent-browser": "Deep web research and competitive analysis.",
 }
 
@@ -102,7 +144,11 @@ def api_req(token: str, method: str, path: str, payload: Any = None):
     base = "https://discord.com/api/v10"
     req = urllib.request.Request(
         base + path,
-        data=(json.dumps(payload).encode("utf-8") if payload is not None else None),
+        data=(
+            json.dumps(payload).encode("utf-8")
+            if payload is not None
+            else None
+        ),
         method=method,
     )
     req.add_header("Authorization", f"Bot {token}")
@@ -115,6 +161,13 @@ def api_req(token: str, method: str, path: str, payload: Any = None):
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="ignore")
         raise RuntimeError(f"{method} {path} -> {e.code}: {body}") from e
+
+
+def as_list(value: Any) -> List[Dict[str, Any]]:
+    """Normalize unknown API responses to a list of dict items."""
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, dict)]
+    return []
 
 
 def main() -> int:
@@ -132,12 +185,16 @@ def main() -> int:
     guilds = discord.get("guilds", {})
 
     if not token:
-        raise SystemExit("Discord token not found in ~/.openclaw/openclaw.json")
+        raise SystemExit(
+            "Discord token not found in ~/.openclaw/openclaw.json"
+        )
     if not guilds:
-        raise SystemExit("No Discord guild configured in ~/.openclaw/openclaw.json")
+        raise SystemExit(
+            "No Discord guild configured in ~/.openclaw/openclaw.json"
+        )
 
     guild_id = next(iter(guilds.keys()))
-    channels = api_req(token, "GET", f"/guilds/{guild_id}/channels")
+    channels = as_list(api_req(token, "GET", f"/guilds/{guild_id}/channels"))
 
     categories = {c["name"]: c for c in channels if c.get("type") == 4}
     texts = {c["name"]: c for c in channels if c.get("type") == 0}
@@ -152,7 +209,10 @@ def main() -> int:
             ch = texts.get(name)
             if ch is None:
                 missing_channels.append((cat, name))
-            elif cat in categories and ch.get("parent_id") != categories[cat]["id"]:
+            elif (
+                cat in categories
+                and ch.get("parent_id") != categories[cat]["id"]
+            ):
                 misplaced_channels.append((cat, name))
             if ch is not None and name in CHANNEL_TOPICS:
                 current_topic = (ch.get("topic") or "").strip()
@@ -190,9 +250,10 @@ def main() -> int:
                 f"/guilds/{guild_id}/channels",
                 {"name": c, "type": 4, "position": pos},
             )
-            categories[c] = created
+            if isinstance(created, dict):
+                categories[c] = created
 
-    channels = api_req(token, "GET", f"/guilds/{guild_id}/channels")
+    channels = as_list(api_req(token, "GET", f"/guilds/{guild_id}/channels"))
     categories = {c["name"]: c for c in channels if c.get("type") == 4}
     texts = {c["name"]: c for c in channels if c.get("type") == 0}
 
@@ -214,10 +275,15 @@ def main() -> int:
                     },
                 )
             elif existing.get("parent_id") != cat_id:
-                api_req(token, "PATCH", f"/channels/{existing['id']}", {"parent_id": cat_id})
+                api_req(
+                    token,
+                    "PATCH",
+                    f"/channels/{existing['id']}",
+                    {"parent_id": cat_id},
+                )
 
     # Refresh and apply channel topics/descriptions.
-    channels = api_req(token, "GET", f"/guilds/{guild_id}/channels")
+    channels = as_list(api_req(token, "GET", f"/guilds/{guild_id}/channels"))
     texts = {c["name"]: c for c in channels if c.get("type") == 0}
     updated_topics = 0
     for name, desired_topic in CHANNEL_TOPICS.items():
@@ -234,7 +300,10 @@ def main() -> int:
             )
             updated_topics += 1
 
-    print(f"\nApply complete. Discord layout synced. Topics updated: {updated_topics}")
+    print(
+        "\nApply complete. Discord layout synced. "
+        f"Topics updated: {updated_topics}"
+    )
     return 0
 
 
