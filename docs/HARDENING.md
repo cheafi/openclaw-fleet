@@ -30,7 +30,20 @@ Why: with `open`, any new/unknown channel can become an execution surface.
 
 ---
 
-## 3) Restrict tool blast radius
+## 3) Allowlist Discord users for slash commands
+
+Set both global and per-guild allowlists:
+
+```bash
+openclaw config set channels.discord.allowFrom '["YOUR_DISCORD_USER_ID"]'
+openclaw config set channels.discord.guilds.YOUR_GUILD_ID.users '["YOUR_DISCORD_USER_ID"]'
+```
+
+Why: removes the `native.no_allowlists` warning and prevents unapproved command use.
+
+---
+
+## 4) Restrict tool blast radius
 
 Prefer tighter defaults for exposed agents:
 
@@ -43,7 +56,7 @@ Why: reduces filesystem and runtime impact if a prompt is malicious.
 
 ---
 
-## 4) Tighten credentials directory permissions
+## 5) Tighten credentials directory permissions
 
 ```bash
 chmod 700 ~/.openclaw/credentials
@@ -53,7 +66,7 @@ Why: avoids local credential files being readable by other users on the machine.
 
 ---
 
-## 5) Re-check status
+## 6) Re-check status
 
 ```bash
 openclaw status
@@ -62,7 +75,25 @@ openclaw security audit
 
 ---
 
-## 6) Operational cadence
+## 7) Optional one-command baseline script
+
+Run the repository hardening helper:
+
+```bash
+./scripts/harden-openclaw.sh
+```
+
+With explicit Discord allowlist values:
+
+```bash
+DISCORD_GUILD_ID="YOUR_GUILD_ID" \
+DISCORD_USER_ID="YOUR_DISCORD_USER_ID" \
+./scripts/harden-openclaw.sh
+```
+
+---
+
+## 8) Operational cadence
 
 - Run `openclaw security audit` weekly
 - Rotate Discord token and API keys on suspected exposure

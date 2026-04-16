@@ -191,6 +191,7 @@ openclaw status
 - Use least-privilege Discord bot permissions
 - Rotate API keys and Discord token if exposed
 - Enable periodic backups and run security audit regularly
+- Apply the baseline hardening script: `./scripts/harden-openclaw.sh`
 
 ---
 
