@@ -15,6 +15,19 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [2026-04-16] (continued)
+
+### Added
+- `docs/HARDENING.md` — post-setup hardening steps for Discord routing policy, sandboxing, filesystem scope, credential permissions
+- `docs/DISCORD-OPERATIONS.md` — Discord runbook with health checks and operational tasks
+- `scripts/discord-sync.py` — canonical Discord layout audit/apply utility
+
+### Changed
+- `README.md` — simplified structure, removed duplication, added Discord sync commands and hardening doc link
+- `docs/ARCHITECTURE.md` — updated Zalo bridge wording from OA to personal account bridge
+
+---
+
 ## [2026-04-16]
 
 ### Added
