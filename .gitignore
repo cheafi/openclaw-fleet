@@ -8,6 +8,7 @@ openclaw.json
 # Skill and service credentials
 *.env
 .env.*
+!.env.example
 *secrets*
 *.keys.json
 skill-secrets.env
@@ -45,3 +46,9 @@ yarn.lock
 # Python caches
 __pycache__/
 *.pyc
+*.pyo
+.venv/
+venv/
+
+# Real config (never commit)
+.env

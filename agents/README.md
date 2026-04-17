@@ -25,15 +25,17 @@ A short identity card: agent name, role, assigned Discord channel, and tier. Kep
 
 ## Available agents
 
-| Agent | What it does | Auto-schedule |
-|-------|-------------|---------------|
-| file-organizer | Disk cleanup and file management | Saturday 10 AM HKT |
-| gig | Find freelance and contract work | On-demand |
-| healthcheck | System health monitoring | Every 6 hours |
-| learning-log | Fleet activity digest | Daily 9:30 AM HKT |
-| self-improving | Weekly fleet review and improvement proposals | Monday 10 AM HKT |
-| summarize | Summarize articles, URLs, and documents | On-demand |
-| zalo-events | Zalo event invitations and follow-up (personal account) | On-demand |
+> All 7 agents below ship with real `SOUL.md` + `IDENTITY.md` files you can copy and use immediately. They were written for one person's setup — review and adapt them to your own needs.
+
+| Agent | What it does | Auto-schedule | Status |
+|-------|-------------|---------------|--------|
+| summarize | Summarize articles, URLs, and documents | On-demand | ✅ Stable |
+| healthcheck | System health monitoring | Every 6 hours | ✅ Stable |
+| file-organizer | Disk cleanup and file management | Saturday 10 AM HKT | ✅ Stable |
+| gig | Find freelance and contract work | On-demand | ✅ Stable |
+| learning-log | Fleet activity digest | Daily 9:30 AM HKT | ✅ Stable |
+| self-improving | Weekly fleet review and improvement proposals | Monday 10 AM HKT | ✅ Stable |
+| zalo-events | Zalo event invitations and follow-up (personal account) | On-demand | ⚠️ Experimental |
 
 ## Creating a new agent
 

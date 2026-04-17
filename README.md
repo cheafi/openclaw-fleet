@@ -1,68 +1,119 @@
 # OpenClaw Fleet
 
-A practical, self-managing AI agent fleet for Discord, built on [OpenClaw](https://openclaw.ai).
+A curated collection of AI agent configurations for [OpenClaw](https://openclaw.ai), orchestrated through Discord.
 
-![Agents](https://img.shields.io/badge/agents-31-blue)
-![Crons](https://img.shields.io/badge/automated%20crons-9-green)
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
-## Value proposition
+## What this is
 
-This repository gives you a real, running blueprint for operating specialized AI agents through Discord channels, with scheduled automation, shared learning, and operational docs.
+This repo contains agent personality files (`SOUL.md` + `IDENTITY.md`), Discord layout scripts, automation workflows, and operational docs for running a fleet of specialized AI agents on a single machine via OpenClaw.
+
+**This is not a framework or SaaS product.** It is a working personal setup, published so others can study, fork, and adapt it.
 
 ---
 
 ## Current status
 
-| Area | Status |
-|------|--------|
-| 31-agent fleet | ✅ Running |
-| Discord 6-category layout | ✅ Live |
-| 9 automated schedules | ✅ Live |
-| Zalo personal-account bridge | ✅ Live (first-time QR login required) |
-| One-command installer (`setup.sh`) | 🚧 Not built yet |
-| Linux/cloud deployment docs | 🚧 Partial |
+> ⚠️ This is a real setup that runs daily on one Mac. Some parts are well-tested; others are prototypes.
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| 7 shipped agent configs | ✅ Working | `agents/` directory — copy and use |
+| Discord 6-category layout | ✅ Working | Scripted sync via `discord-sync.py` |
+| Automated cron schedules | ✅ Working | 9 scheduled jobs |
+| Zalo personal bridge | ⚠️ Experimental | Unofficial API, session can expire |
+| One-command installer | 🚧 Not built | Manual setup required |
+| Linux / Docker support | 🚧 Untested | macOS only for now |
 
 ---
 
 ## Who this is for
 
-**Good fit**
-- Developers and power users who want a local AI operations center
-- Teams prototyping agent workflows on Discord
+**Good fit:**
+- Developers who want a local AI operations center through Discord
+- OpenClaw users looking for real agent config examples
+- Teams prototyping agent workflows before building custom tooling
 
-**Not a good fit**
-- Users expecting a managed SaaS product
-- Production workloads requiring strict SLA/compliance guarantees
+**Not a good fit:**
+- Users expecting a managed product with support
+- Production workloads requiring SLA or compliance guarantees
+- People who have never used a terminal
 
 ---
 
-## Architecture (high level)
+## Prerequisites
 
-```text
-Discord message
-    ↓
-OpenClaw Gateway (localhost:18789)
-    ↓
-Agent routing by channel
-    ↓
-Load SOUL.md + IDENTITY.md + shared protocols
-    ↓
-Model call (OpenAI-compatible API)
-    ↓
-Tool use (exec/read/write/web/MCP)
-    ↓
-Response posted back to Discord
+- **macOS** (tested on Apple Silicon)
+- **Node.js 20+** (`node --version`)
+- **OpenClaw** installed (`npm install -g openclaw`)
+- **A Discord bot** with token ([setup guide](docs/DISCORD-BOT-GUIDE.md))
+- **An AI model API key** (OpenAI-compatible endpoint)
+
+---
+
+## Quickstart
+
+### 1. Install OpenClaw
+
+```bash
+npm install -g openclaw
+openclaw setup
+```
+
+### 2. Create a Discord bot
+
+1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+2. Create app → add bot → copy token
+3. OAuth2 → enable `bot` + `applications.commands` scopes
+4. Bot permissions: Send Messages, Read Message History, Manage Channels
+5. Invite bot to your server
+
+### 3. Configure OpenClaw
+
+```bash
+# Set your AI model provider
+openclaw config set agents.defaults.model.primary "your-provider/your-model"
+
+# Set Discord credentials
+export DISCORD_BOT_TOKEN="your-bot-token"
+openclaw config set channels.discord.enabled true
+```
+
+See [config.example.json](config.example.json) for a complete template.
+
+### 4. Copy agent configs
+
+```bash
+git clone https://github.com/cheafi/openclaw-fleet.git
+cd openclaw-fleet
+
+# Copy agents you want to use
+cp -r agents/summarize ~/.openclaw/workspace-summarize
+cp -r agents/healthcheck ~/.openclaw/workspace-healthcheck
+```
+
+### 5. Start the gateway
+
+```bash
+openclaw gateway start
+openclaw status
+```
+
+### 6. Sync Discord layout (optional)
+
+```bash
+python3 scripts/discord-sync.py          # audit only (dry run)
+python3 scripts/discord-sync.py --apply  # create/move channels
 ```
 
 ---
 
-## Discord layout (canonical)
+## Discord layout
 
-```text
+```
 ☕ Welcome
   └── #一般
 
@@ -71,179 +122,92 @@ Response posted back to Discord
   └── #construction-news
 
 ⚙️ Core Systems
-  ├── #healthcheck
-  ├── #backup
-  ├── #fail2ban-reporter
-  ├── #learning-log
-  ├── #self-improving
-  ├── #self-evolving-skill
+  ├── #healthcheck        ├── #backup
+  ├── #fail2ban-reporter  ├── #learning-log
+  ├── #self-improving     ├── #self-evolving-skill
   └── #skill-builder
 
 ⚡ Automation
-  ├── #auto-workflow
-  ├── #auto-deploy
-  ├── #auto-update
-  ├── #browser-automation
-  ├── #ai-web-automation
-  ├── #zalo-events
+  ├── #auto-workflow      ├── #auto-deploy
+  ├── #auto-update        ├── #browser-automation
+  ├── #ai-web-automation  ├── #zalo-events
   └── #remind-me
 
 📋 Productivity
-  ├── #summarize
-  ├── #file-summary
-  ├── #file-organizer
-  ├── #multi-search-engine
-  ├── #humanizer
-  ├── #youtube-transcript
+  ├── #summarize          ├── #file-summary
+  ├── #file-organizer     ├── #multi-search-engine
+  ├── #humanizer          ├── #youtube-transcript
   └── #openai-whisper
 
 💼 Work & Research
-  ├── #gig
-  ├── #find-skills
-  ├── #skill-vetter
-  ├── #free-ride
-  ├── #github
-  ├── #api-gateway
-  ├── #docker-essential
-  └── #agent-browser
-```
-
-To verify and sync your server to this layout:
-
-```bash
-# audit only (no changes)
-python3 scripts/discord-sync.py
-
-# apply missing categories/channels and move misplaced channels
-python3 scripts/discord-sync.py --apply
-```
-
-To post beginner-friendly usage messages in each channel:
-
-```bash
-python3 scripts/discord-post-onboarding.py
+  ├── #gig         ├── #find-skills   ├── #skill-vetter
+  ├── #free-ride   ├── #github        ├── #api-gateway
+  ├── #docker-essential  └── #agent-browser
 ```
 
 ---
 
-## Quickstart
+## Shipped agent configs
 
-### 1) Install OpenClaw
+These agents have custom `SOUL.md` and `IDENTITY.md` in `agents/`:
 
-```bash
-npm install -g openclaw
-openclaw --version
-```
+| Agent | Purpose | Schedule |
+|-------|---------|----------|
+| `summarize` | Summarize URLs, articles, and documents | On-demand |
+| `healthcheck` | System health monitoring | Every 6 hours |
+| `file-organizer` | Disk cleanup and file management | Weekly (Sat 10 AM) |
+| `gig` | Find freelance and contract work | On-demand |
+| `learning-log` | Fleet activity digest | Daily 9:30 AM |
+| `self-improving` | Weekly fleet review and improvement proposals | Monday 10 AM |
+| `zalo-events` | Zalo event invitations (experimental) | On-demand |
 
-### 2) Create Discord bot
-
-1. Open [Discord Developer Portal](https://discord.com/developers/applications)
-2. Create app → add bot
-3. Copy bot token
-4. OAuth2 URL Generator → `bot` scope + permissions:
-   - Send Messages
-   - Read Message History
-   - Manage Channels
-5. Invite bot to your server
-
-### 3) Initialize OpenClaw locally
-
-```bash
-openclaw setup
-```
-
-This creates `~/.openclaw/openclaw.json`.
-
-### 4) Configure model provider
-
-```bash
-openclaw config set models.mode replace
-openclaw config set models.providers '[{"id":"my-provider","kind":"openai-custom","baseURL":"https://your-api.com/v1","apiKey":"YOUR_API_KEY","models":["your-model"]}]'
-```
-
-### 5) Configure Discord
-
-```bash
-openclaw config set channels.discord.token "YOUR_BOT_TOKEN"
-openclaw config set channels.discord.enabled true
-openclaw config set channels.discord.guilds.YOUR_GUILD_ID '{}'
-```
-
-### 6) Clone this repo and copy agent configs
-
-```bash
-git clone https://github.com/cheafi/openclaw-fleet.git
-cd openclaw-fleet
-cp -r agents/summarize ~/.openclaw/workspace-summarize
-cp -r agents/healthcheck ~/.openclaw/workspace-healthcheck
-# repeat for other agents you need
-```
-
-> `setup.sh` is not available yet. Manual copy is currently required.
-
-### 7) Start gateway
-
-```bash
-openclaw gateway start
-openclaw status
-```
-
----
-
-## Production-readiness notes
-
-- Keep gateway loopback-only (`127.0.0.1`) unless you have proxy auth + TLS
-- Treat `SOUL.md` as executable policy (especially for `exec` tool)
-- Use least-privilege Discord bot permissions
-- Rotate API keys and Discord token if exposed
-- Enable periodic backups and run security audit regularly
-- Apply the baseline hardening script: `./scripts/harden-openclaw.sh`
+> The Discord layout references ~31 channels. Most work with the default OpenClaw agent. The 7 above have custom personality configs.
 
 ---
 
 ## Repo structure
 
-```text
+```
 openclaw-fleet/
-├── README.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── ROADMAP.md
-├── CHANGELOG.md
-├── LICENSE
-├── .gitignore
-├── config.example.json
-├── agents/
-├── docs/
-└── scripts/
+├── README.md              ← You are here
+├── CONTRIBUTING.md         ← How to contribute
+├── SECURITY.md             ← Credential handling
+├── ROADMAP.md              ← What's planned
+├── CHANGELOG.md            ← What changed
+├── LICENSE                 ← MIT
+├── config.example.json     ← Safe config template
+├── agents/                 ← Agent SOUL.md + IDENTITY.md
+├── docs/                   ← Architecture, guides, runbooks
+└── scripts/                ← Discord sync, hardening, workflows
 ```
 
 ---
 
-## Key docs
+## Documentation
 
-- [Beginner guide](docs/BEGINNERS-GUIDE.md)
-- [Architecture deep dive](docs/ARCHITECTURE.md)
-- [Discord operations runbook](docs/DISCORD-OPERATIONS.md)
-- [Discord bot guide for beginners](docs/DISCORD-BOT-GUIDE.md)
-- [Hardening guide](docs/HARDENING.md)
-- [Troubleshooting](docs/TROUBLESHOOTING.md)
-- [Use cases](docs/USE-CASES.md)
-- [Security policy](SECURITY.md)
-- [Contributing](CONTRIBUTING.md)
-- [Roadmap](ROADMAP.md)
-- [Changelog](CHANGELOG.md)
+| Doc | Description |
+|-----|-------------|
+| [Beginner's Guide](docs/BEGINNERS-GUIDE.md) | Non-technical intro to using agents via Discord |
+| [Architecture](docs/ARCHITECTURE.md) | System design, data flow, agent lifecycle |
+| [Orchestrator](docs/ORCHESTRATOR.md) | Agent tiers, workflow chains, cron schedules |
+| [Discord Bot Guide](docs/DISCORD-BOT-GUIDE.md) | What each channel does + example prompts |
+| [Discord Operations](docs/DISCORD-OPERATIONS.md) | Operational runbook |
+| [Protocols](docs/PROTOCOLS.md) | Inter-agent communication standards |
+| [Hardening](docs/HARDENING.md) | Post-setup security steps |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common errors and fixes |
+| [Use Cases](docs/USE-CASES.md) | Real-world usage scenarios |
 
 ---
 
 ## Security
 
-Never commit secrets. Specifically:
-- `~/.openclaw/openclaw.json`
-- `~/.openclaw/skill-secrets.env`
-- `~/.openclaw/zalo-session/credentials.json`
+**Never commit real credentials.** See [SECURITY.md](SECURITY.md) for full guidance.
 
-See [SECURITY.md](SECURITY.md) for full guidance.
+Quick hardening:
+
+```bash
+./scripts/harden-openclaw.sh
+```
 
 ---
 
