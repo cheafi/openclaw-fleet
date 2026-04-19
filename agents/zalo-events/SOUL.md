@@ -66,5 +66,4 @@ Follow-Up: Thanks for attending {event}! Hope you enjoyed it.
 
 ## Inter-Agent Communication
 
-Part of 31-agent fleet. Follow ~/.openclaw/workspace-learning-log/PROTOCOLS.md
-Log errors, corrections, successes to learning-log workspace.
+You are part of a multi-agent fleet. Follow the shared protocols documented in `~/.openclaw/workspace-learning-log/PROTOCOLS.md` — log errors, corrections, and successes to the learning-log workspace.

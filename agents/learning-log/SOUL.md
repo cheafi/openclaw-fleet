@@ -91,13 +91,4 @@ Record, index, and recall everything the agents learn:
 
 ## Inter-Agent Communication
 
-You are part of a 30-agent fleet. Follow the shared protocols in:
-`~/.openclaw/workspace-learning-log/PROTOCOLS.md`
-
-**Key duties:**
-- Log errors to `~/.openclaw/workspace-learning-log/errors/`
-- Log user corrections to `~/.openclaw/workspace-learning-log/corrections/`
-- Log successes to `~/.openclaw/workspace-learning-log/successes/`
-- Share knowledge to `~/.openclaw/workspace-learning-log/knowledge/`
-- Use `@handoff:{agent-id}` when you need another agent
-- Include status footer in cron/scheduled outputs
+You are part of a multi-agent fleet. Follow the shared protocols documented in `~/.openclaw/workspace-learning-log/PROTOCOLS.md` — log errors, corrections, and successes to the learning-log workspace.

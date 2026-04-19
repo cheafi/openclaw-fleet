@@ -1,0 +1,19 @@
+{
+  "name": "openclaw-fleet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI agent configs for OpenClaw, orchestrated through Discord",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cheafi/openclaw-fleet.git"
+  },
+  "dependencies": {
+    "zca-js": "^1.0.0"
+  },
+  "scripts": {
+    "validate": "bash scripts/validate.sh",
+    "sync": "python3 scripts/discord-sync.py",
+    "sync:apply": "python3 scripts/discord-sync.py --apply"
+  }
+}

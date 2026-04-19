@@ -2,7 +2,37 @@
 
 ## Scope
 
-This repo contains example configuration files, agent personality files (`SOUL.md`, `IDENTITY.md`), and utility scripts for running an OpenClaw agent fleet. It does **not** contain any real credentials, tokens, or API keys — and must never contain them.
+This repo contains agent personality files (`SOUL.md`, `IDENTITY.md`), utility scripts, and docs for running an OpenClaw agent fleet. It does **not** contain any real credentials — and must never contain them.
+
+---
+
+## ⚠️ Critical: Agent execution risk
+
+**Agents with the `exec` tool can run arbitrary shell commands on your machine.** This is the single biggest security consideration.
+
+### What this means
+
+When you deploy a `SOUL.md` that includes the `exec` tool, you are giving an LLM the ability to run shell commands as your user. A prompt injection attack — where a malicious input tricks the agent into running unintended commands — is a real risk.
+
+### Agent permissions matrix
+
+| Agent | exec | read | write | web | Risk level |
+|-------|------|------|-------|-----|------------|
+| summarize | ❌ | ✅ | ❌ | ✅ | Low |
+| healthcheck | ✅ | ✅ | ❌ | ✅ | Medium |
+| file-organizer | ✅ | ✅ | ✅ | ❌ | **High** |
+| gig | ❌ | ❌ | ❌ | ✅ | Low |
+| learning-log | ❌ | ✅ | ✅ | ❌ | Low |
+| self-improving | ❌ | ✅ | ✅ | ❌ | Medium |
+| zalo-events | ✅ | ❌ | ❌ | ✅ | Medium |
+
+### Mitigations
+
+1. **Run `./scripts/harden-openclaw.sh`** — enables sandbox mode and workspace-only filesystem
+2. **Review every `SOUL.md`** before deploying — treat it as code, not just a prompt
+3. **Enable `tools.fs.workspaceOnly: true`** — prevents agents from accessing files outside their workspace
+4. **Use `channels.discord.groupPolicy: "allowlist"`** — restricts who can talk to agents
+5. **Set API spending limits** — prevents runaway costs from prompt injection loops
 
 ---
 
@@ -51,15 +81,6 @@ These are already listed in `.gitignore`. Do not override or bypass the ignore r
 
 ---
 
-## Agent execution security
-
-Agents can run shell commands via the `exec` tool. Before deploying an agent:
-1. Read its `SOUL.md` — especially the Tools and Instructions sections
-2. Confirm it only accesses paths and commands you intend
-3. Avoid agents that write to system directories or run as root
-
----
-
 ## Reporting a vulnerability
 
 This is a personal project, not a commercial product. If you find a security issue:
@@ -70,10 +91,11 @@ This is a personal project, not a commercial product. If you find a security iss
 
 ---
 
-## Checklist before making the repo public or sharing it
+## Checklist before sharing
 
-- [ ] `~/.openclaw/openclaw.json` is not tracked by git (`git status` should not show it)
+- [ ] `~/.openclaw/openclaw.json` is not tracked by git
 - [ ] No `.env` files with real values are tracked
 - [ ] `git log --all --full-history -- "*.env"` shows no leaked env files in history
-- [ ] `git grep -i "token\|apikey\|password\|secret"` returns only placeholder values
+- [ ] `git grep -iE "sk-[a-zA-Z0-9]{20,}|MTQ[a-zA-Z0-9]{50,}"` returns nothing
 - [ ] Discord bot permissions are minimal (not Administrator)
+- [ ] `./scripts/harden-openclaw.sh` has been run

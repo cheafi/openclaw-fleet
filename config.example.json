@@ -1,5 +1,5 @@
 {
-  "_comment": "This is a safe example config. Copy to ~/.openclaw/openclaw.json and replace all placeholder values. NEVER commit your real openclaw.json.",
+  "_comment": "Safe example config. Copy to ~/.openclaw/openclaw.json and replace all YOUR_ placeholders. NEVER commit your real config.",
   "version": "2026.4.14",
   "models": {
     "mode": "replace",
@@ -9,16 +9,20 @@
         "kind": "openai-custom",
         "baseURL": "https://YOUR_API_ENDPOINT/v1",
         "apiKey": "YOUR_API_KEY_HERE",
-        "models": ["YOUR_MODEL_NAME"]
+        "models": [
+          "YOUR_MODEL_NAME"
+        ]
       }
     ]
   },
   "channels": {
     "discord": {
       "enabled": true,
-      "token": "YOUR_DISCORD_BOT_TOKEN_HERE",
+      "token": "YOUR_DISCORD_BOT_TOKEN",
       "guilds": {
-        "YOUR_GUILD_ID_HERE": {}
+        "YOUR_GUILD_ID": {
+          "requireMention": false
+        }
       }
     }
   },
@@ -29,7 +33,7 @@
       "workspaceDir": "~/.openclaw/workspace-summarize",
       "channels": {
         "discord": {
-          "channelId": "YOUR_CHANNEL_ID_HERE"
+          "channelId": "YOUR_CHANNEL_ID"
         }
       }
     },
@@ -39,7 +43,7 @@
       "workspaceDir": "~/.openclaw/workspace-healthcheck",
       "channels": {
         "discord": {
-          "channelId": "YOUR_CHANNEL_ID_HERE"
+          "channelId": "YOUR_CHANNEL_ID"
         }
       },
       "crons": [
@@ -48,6 +52,74 @@
           "message": "Run a full system health check and report."
         }
       ]
+    },
+    {
+      "id": "file-organizer",
+      "name": "File Organizer",
+      "workspaceDir": "~/.openclaw/workspace-file-organizer",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "0 10 * * 6",
+          "message": "Run weekly cleanup scan and post proposal."
+        }
+      ]
+    },
+    {
+      "id": "gig",
+      "name": "Gig Finder",
+      "workspaceDir": "~/.openclaw/workspace-gig",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      }
+    },
+    {
+      "id": "learning-log",
+      "name": "Learning Log",
+      "workspaceDir": "~/.openclaw/workspace-learning-log",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "30 9 * * *",
+          "message": "Generate daily digest of all errors, corrections, and successes."
+        }
+      ]
+    },
+    {
+      "id": "self-improving",
+      "name": "Self-Improving",
+      "workspaceDir": "~/.openclaw/workspace-self-improving",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "0 10 * * 1",
+          "message": "Read learning-log digest, score all agents, propose top 5 improvements."
+        }
+      ]
+    },
+    {
+      "id": "zalo-events",
+      "name": "Zalo Events",
+      "workspaceDir": "~/.openclaw/workspace-zalo-events",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      }
     }
   ]
 }

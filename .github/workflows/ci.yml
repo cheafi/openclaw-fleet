@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate agent configs
+        run: bash scripts/validate.sh
+
+      - name: Shellcheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: scripts
+
+      - name: Check JSON validity
+        run: python3 -c "import json; json.load(open('config.example.json'))"
+
+      - name: Check for leaked secrets
+        run: |
+          if git grep -iE '(sk-[a-zA-Z0-9]{20,}|MTQ[a-zA-Z0-9]{50,})' -- ':!_apply_changes.py' ':!.github/workflows/ci.yml'; then
+            echo "::error::Possible secret found in repo"
+            exit 1
+          fi
