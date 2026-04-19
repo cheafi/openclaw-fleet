@@ -131,13 +131,51 @@ In #free-ride: "List all free developer tools I should be using"
 
 ## 🔄 The Self-Improving Loop
 
-**You don't need to do anything for this — it runs automatically.**
+> ⚠️ **Experimental.** This loop runs automatically but has no feedback metric yet — it produces suggestions, not validated improvements.
 
 Every week on Monday at 10 AM:
-1. `self-improving` reviews all 31 agents
+1. `self-improving` reviews the fleet's agent configs
 2. Reads the learning log for errors and corrections
-3. Scores each agent
-4. Proposes improvements
-5. `self-evolving-skill` patches any broken dependencies
+3. Scores each agent and proposes improvements
+4. `self-evolving-skill` patches any broken dependencies
 
-Check the results in `#self-improving` every Monday morning.
+Check the results in `#self-improving` every Monday morning. Treat the output as suggestions to review, not automatic upgrades.
+
+---
+
+## 🔗 Workflow Chains (fleet-runner)
+
+**Scenario:** You want to run multi-agent pipelines with one command.
+
+```bash
+# Research a topic → summarize → rewrite in natural tone
+./scripts/fleet-runner.sh content-pipeline "latest AI agent frameworks"
+
+# Morning briefing: health + news + digest
+./scripts/fleet-runner.sh morning-briefing
+
+# Security audit: healthcheck + fail2ban scan
+./scripts/fleet-runner.sh security-chain
+
+# Weekly self-review: health → learning-log → score → patch
+./scripts/fleet-runner.sh self-improvement-loop
+```
+
+Set `CHANNEL_*` env vars first — see `.env.example`.
+
+---
+
+## 📋 Daily Operations Checklist
+
+A suggested daily routine using the fleet:
+
+| Time | Action | Channel |
+|------|--------|---------|
+| 9:00 AM | Check morning briefing (auto) | `#construction-news`, `#hk-weather` |
+| 9:30 AM | Review learning digest (auto) | `#learning-log` |
+| As needed | Summarize articles / URLs | `#summarize` |
+| As needed | Research topics | `#multi-search-engine`, `#agent-browser` |
+| As needed | Find gigs | `#gig` |
+| 6-hourly | Review health reports (auto) | `#healthcheck` |
+| Saturday | Review cleanup proposal (auto) | `#file-organizer` |
+| Monday | Review improvement proposals (auto) | `#self-improving` |

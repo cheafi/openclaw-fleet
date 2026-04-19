@@ -65,7 +65,7 @@ If the agent encounters errors or the user corrects it, logs are written to the 
 ## Data Flow
 
 ```
-All 31 Agents
+All Agents
      │
      ├── write errors ──────→ learning-log/errors/
      ├── write corrections ──→ learning-log/corrections/

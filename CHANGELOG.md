@@ -71,5 +71,5 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `docs/ORCHESTRATOR.md`, `docs/PROTOCOLS.md`
 - `scripts/fleet-runner.sh` — workflow chain executor
 - Discord server reorganized into 6 clean categories
-- 31-agent fleet with 9 automated cron schedules
+- 31-channel Discord layout with 7 custom agent configs and 9 automated cron schedules
 - Mac weekly disk cleanup via `file-organizer` cron (Saturday 10 AM HKT)

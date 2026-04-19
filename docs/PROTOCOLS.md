@@ -1,6 +1,6 @@
 # SHARED PROTOCOLS — Inter-Agent Communication Standards
 
-All 30 agents in the fleet follow these protocols for communication, error reporting, and knowledge sharing.
+All agents in the fleet follow these protocols for communication, error reporting, and knowledge sharing. (7 agents have custom configs; the rest use default OpenClaw behavior.)
 
 ## 1. Error Reporting Protocol
 
@@ -150,7 +150,7 @@ Every agent should include a status footer in scheduled/cron outputs:
 
 ## 9. Fleet Registry
 
-Total: 30 agents across 7 categories.
+The Discord layout has ~31 channels across 7 categories. 7 have custom agent configs; the rest use the default OpenClaw agent.
 
 **Core Infrastructure:** healthcheck, backup, fail2ban-reporter
 **Intelligence:** learning-log, self-improving, self-evolving-skill, skill-builder

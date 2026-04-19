@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Zalo Personal Account Bridge for OpenClaw
  * Uses zca-js (unofficial Zalo API) with QR code login
