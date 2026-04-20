@@ -8,6 +8,29 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+---
+
+## [2026-04-21]
+
+### Added
+- `agents/market-intel/` — market regime monitoring agent (daily briefings, distribution day tracking, macro event awareness)
+- `agents/signal-scanner/` — technical setup detection and grading (VCP, breakout, pullback, RSI, momentum, mean reversion, relative strength)
+- `agents/portfolio-monitor/` — position monitoring with risk alerts (stop proximity, earnings warnings, correlation risk)
+- `DISCLAIMER.md` — financial information disclaimer
+- `docs/DISCORD-ALERT-TEMPLATES.md` — reference templates for Discord financial alerts (market briefing, signal, portfolio, risk escalation, watchlist)
+- Markdownlint step in CI pipeline
+
+### Changed
+- `README.md` — added financial intelligence section, updated agent count to 10, added alert template and disclaimer links
+- `agents/README.md` — added 3 financial agents to table and permissions matrix
+- `config.example.json` — added market-intel, signal-scanner, portfolio-monitor agent entries with weekday cron schedules
+- `ROADMAP.md` — added financial intelligence improvement roadmap items
+- `.github/workflows/ci.yml` — added markdownlint validation step
+
+---
+
+
+
 ### Planned
 - `setup.sh` one-command installer
 - Linux / Docker support docs

@@ -120,6 +120,54 @@
           "channelId": "YOUR_CHANNEL_ID"
         }
       }
+    },
+    {
+      "id": "market-intel",
+      "name": "Market Intel",
+      "workspaceDir": "~/.openclaw/workspace-market-intel",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "0 7 * * 1-5",
+          "message": "Generate morning market briefing: regime, breadth, distribution days, key events."
+        }
+      ]
+    },
+    {
+      "id": "signal-scanner",
+      "name": "Signal Scanner",
+      "workspaceDir": "~/.openclaw/workspace-signal-scanner",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "30 7 * * 1-5",
+          "message": "Scan watchlist for actionable setups: VCP, breakout, pullback, RSI, momentum. Grade and rank."
+        }
+      ]
+    },
+    {
+      "id": "portfolio-monitor",
+      "name": "Portfolio Monitor",
+      "workspaceDir": "~/.openclaw/workspace-portfolio-monitor",
+      "channels": {
+        "discord": {
+          "channelId": "YOUR_CHANNEL_ID"
+        }
+      },
+      "crons": [
+        {
+          "schedule": "0 */4 * * 1-5",
+          "message": "Check all positions: stop proximity, target proximity, earnings within 5 days, volume spikes, correlation."
+        }
+      ]
     }
   ]
 }

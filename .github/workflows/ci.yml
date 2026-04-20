@@ -23,6 +23,14 @@ jobs:
       - name: Check JSON validity
         run: python3 -c "import json; json.load(open('config.example.json'))"
 
+      - name: Markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'
+          config: |
+            { "MD013": false, "MD033": false, "MD041": false }
+        continue-on-error: true
+
       - name: Check for leaked secrets
         run: |
           if git grep -iE '(sk-[a-zA-Z0-9]{20,}|MTQ[a-zA-Z0-9]{50,})' -- ':!_apply_changes.py' ':!.github/workflows/ci.yml'; then

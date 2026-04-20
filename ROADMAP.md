@@ -31,6 +31,13 @@ Currently the biggest friction point. A script that:
 
 ## Medium-term (3-6 months)
 
+### Financial intelligence improvements
+- Broker API integration (Alpaca, Interactive Brokers) for live price feeds
+- Signal quality tracking — record hit rate of each setup grade over time
+- Backtesting framework — validate signal-scanner setups against historical data
+- Learning loop — feed signal outcomes back into prompt refinement
+- Multi-timeframe analysis — weekly + daily regime alignment
+
 ### More agent examples
 - Email triage agent (imap-smtp-email skill)
 - Notion daily sync agent
@@ -85,3 +92,6 @@ Currently the biggest friction point. A script that:
 - [x] CI pipeline (GitHub Actions)
 - [x] Dependency declaration (requirements.txt, package.json)
 - [x] Agent validation script
+- [x] 3 financial intelligence agents (market-intel, signal-scanner, portfolio-monitor)
+- [x] Financial disclaimer (DISCLAIMER.md)
+- [x] Discord alert template documentation

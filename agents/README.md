@@ -1,6 +1,6 @@
 # Agent Configs
 
-This folder contains `SOUL.md` and `IDENTITY.md` files for 7 agents in the fleet.
+This folder contains `SOUL.md` and `IDENTITY.md` files for 10 agents in the fleet (7 operational + 3 financial intelligence).
 
 ## Quick start
 
@@ -34,8 +34,11 @@ Short identity card: name, emoji, one-liner. Kept under 30 lines.
 | learning-log | Fleet activity digest | Daily 9:30 AM | read, write | ✅ Stable |
 | self-improving | Fleet review and improvement proposals | Mon 10 AM | read, write | ✅ Stable |
 | zalo-events | Zalo event invitations (personal account) | On-demand | exec | ⚠️ Experimental |
+| market-intel | Market regime assessment, breadth, macro events | Daily 7:00 AM | web-search, read | 🆕 New |
+| signal-scanner | Technical setup detection (VCP, breakout, pullback, RSI, momentum) | Daily 7:30 AM | web-search, read | 🆕 New |
+| portfolio-monitor | Position alerts, risk monitoring, earnings warnings | Every 4 hours | read | 🆕 New |
 
-> **About the "31 agents" number:** The Discord layout has 31 channels. Most use the default OpenClaw agent — only these 7 have custom personality configs. The other 24 channels are just named endpoints.
+> **About the "31 agents" number:** The Discord layout has 31 channels. Most use the default OpenClaw agent — only these 10 have custom personality configs. The other 24 channels are just named endpoints.
 
 ## Agent permissions
 
@@ -50,6 +53,9 @@ Short identity card: name, emoji, one-liner. Kept under 30 lines.
 | learning-log | ❌ | ✅ | ✅ | ❌ |
 | self-improving | ❌ | ✅ | ✅ | ❌ |
 | zalo-events | ✅ | ❌ | ❌ | ✅ |
+| market-intel | ❌ | ✅ | ❌ | ✅ |
+| signal-scanner | ❌ | ✅ | ❌ | ✅ |
+| portfolio-monitor | ❌ | ✅ | ❌ | ❌ |
 
 ## Creating a new agent
 
@@ -65,5 +71,7 @@ Short identity card: name, emoji, one-liner. Kept under 30 lines.
 All agents reference a shared protocol for logging errors, corrections, and successes to the `learning-log` workspace. See [docs/PROTOCOLS.md](../docs/PROTOCOLS.md).
 
 > **Note:** The inter-agent protocol is a convention enforced by prompts, not by code. Agents follow it because their `SOUL.md` says to — there is no runtime enforcement.
+
+> **Financial agents disclaimer:** The market-intel, signal-scanner, and portfolio-monitor agents provide educational information only. They never recommend trades. See [DISCLAIMER.md](../DISCLAIMER.md).
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for the full agent file format spec.

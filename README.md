@@ -2,13 +2,13 @@
 
 Ready-to-use AI agent configs for [OpenClaw](https://openclaw.ai), orchestrated through Discord.
 
-**7 agent templates** · **Discord layout script** · **Cron automation** · **Operational docs**
+**10 agent templates** (incl. 3 financial intelligence agents) · **Discord layout script** · **Cron automation** · **Operational docs**
 
 > Clone the repo. Copy an agent. Start the gateway. Your AI assistant replies in Discord.
 
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Agents](https://img.shields.io/badge/shipped_agents-7-blue)
+![Agents](https://img.shields.io/badge/shipped_agents-10-blue)
 
 ---
 
@@ -30,9 +30,21 @@ Ready-to-use AI agent configs for [OpenClaw](https://openclaw.ai), orchestrated 
 
 ## What this is
 
-This repo contains **7 tested agent personality configs** (`SOUL.md` + `IDENTITY.md`), a Discord server layout script, automation workflows, and operational docs for running AI agents on a single machine via OpenClaw.
+This repo contains **10 tested agent personality configs** (`SOUL.md` + `IDENTITY.md`), a Discord server layout script, automation workflows, and operational docs for running AI agents on a single machine via OpenClaw.
 
 **This is not a framework or SaaS product.** It is a working personal setup, published so others can study, fork, and adapt it.
+
+### Financial intelligence agents
+
+Three specialized agents provide **market regime awareness, technical signal scanning, and portfolio monitoring** — all via Discord. They explain and educate; they never say "buy" or "sell." See [DISCLAIMER.md](DISCLAIMER.md).
+
+| Agent | What it does |
+|-------|-------------|
+| `market-intel` | Daily regime assessment, breadth, distribution days, macro events |
+| `signal-scanner` | VCP, breakout, pullback, RSI, momentum setups with Grade + Confidence |
+| `portfolio-monitor` | Position alerts — stop proximity, earnings warnings, correlation risk |
+
+> See [docs/DISCORD-ALERT-TEMPLATES.md](docs/DISCORD-ALERT-TEMPLATES.md) for example Discord alert formats.
 
 ---
 
@@ -42,7 +54,7 @@ This repo contains **7 tested agent personality configs** (`SOUL.md` + `IDENTITY
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| 7 shipped agent configs | ✅ Stable | `agents/` — copy and use |
+| 10 shipped agent configs | ✅ Stable | `agents/` — copy and use (incl. 3 financial) |
 | Discord 6-category layout | ✅ Stable | Scripted sync via `discord-sync.py` |
 | 9 automated cron schedules | ✅ Stable | Healthcheck, cleanup, digest, review |
 | Workflow chains (fleet-runner) | ✅ Stable | 5 multi-agent pipelines |
@@ -174,6 +186,9 @@ These 7 agents have tested `SOUL.md` + `IDENTITY.md` configs in `agents/`:
 | `learning-log` | Fleet activity digest | Daily 9:30 AM | read, write |
 | `self-improving` | Fleet review and improvement proposals | Monday 10 AM | read, write |
 | `zalo-events` | Zalo event invitations (experimental) | On-demand | exec |
+| `market-intel` | Market regime, breadth, macro events | Daily 7:00 AM | web-search, read |
+| `signal-scanner` | Technical setup detection and grading | Daily 7:30 AM | web-search, read |
+| `portfolio-monitor` | Position alerts and risk monitoring | Every 4 hours | read |
 
 > **Note:** The Discord layout defines ~31 channels. Most use the default OpenClaw agent with no custom config. Only these 7 have custom personality files.
 
@@ -277,7 +292,8 @@ openclaw-fleet/
 ├── requirements.txt         Python dependencies
 ├── package.json             Node.js dependencies
 ├── Makefile                 Common commands (validate, lint)
-├── agents/                  7 agent configs (SOUL.md + IDENTITY.md)
+├── DISCLAIMER.md            Financial information disclaimer
+├── agents/                  10 agent configs (SOUL.md + IDENTITY.md)
 ├── docs/                    Architecture, guides, runbooks
 └── scripts/                 Discord sync, hardening, workflows
 ```
@@ -297,6 +313,8 @@ openclaw-fleet/
 | [Hardening](docs/HARDENING.md) | Post-setup security steps |
 | [Troubleshooting](docs/TROUBLESHOOTING.md) | Common errors and fixes |
 | [Use Cases](docs/USE-CASES.md) | Real-world usage scenarios |
+| [Discord Alert Templates](docs/DISCORD-ALERT-TEMPLATES.md) | Financial alert formatting examples |
+| [Disclaimer](DISCLAIMER.md) | Financial information disclaimer |
 
 ---
 
